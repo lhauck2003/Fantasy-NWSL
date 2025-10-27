@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic
+mysqlclient   # or "asyncmy" if you want async

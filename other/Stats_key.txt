@@ -1,0 +1,33 @@
+Positions:
+Forwards (F):
+LW
+RW
+FW
+(AM)
+
+Midfielder (M):
+DM
+AM
+CM
+LM
+RM
+
+Defender (D):
+WB
+CB
+RB 
+LB
+
+Key Stats:
+minutes_summary = minutes played
+goals_summary = goals scored
+assists_summary = assists
+pens_made_summary = penalties
+pens_att_summary - pens_made_summary = missed penalties
+cards_yellow_summary = yellow cards
+cards_red_summary = red cards
+tackles_summary + iterceptions_summary + clearances_defense + ball_recoveries_misc = defensive contributions
+own_goals_misc = own goals
+
+penalty_saves = penalty penalty save
+? saves_summary = saves

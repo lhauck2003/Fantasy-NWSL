@@ -1,0 +1,140 @@
+-- run in your database (e.g. USE nwsl_db;)
+
+-- teams
+CREATE TABLE IF NOT EXISTS team (
+  team_id INT AUTO_INCREMENT PRIMARY KEY,
+  fbref_team_slug VARCHAR(200) UNIQUE, -- optional fbref slug
+  name VARCHAR(200) NOT NULL,
+  short_name VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- players (unique player_id we map from fbref player_id)
+CREATE TABLE IF NOT EXISTS player (
+  player_id VARCHAR(64) PRIMARY KEY,    -- use fbref player id (e.g. be5200d5) or generated id
+  name VARCHAR(200) NOT NULL,
+  team_id INT NULL,
+  primary_position CHAR(1) NULL,        -- 'F', 'M', 'D', 'G' (G for goalkeeper)
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (team_id) REFERENCES team(team_id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- matches / games
+CREATE TABLE IF NOT EXISTS game (
+  game_id VARCHAR(32) PRIMARY KEY,      -- use fbref match id (e.g. 0194ccbe)
+  match_url VARCHAR(512),
+  date DATE NULL,
+  kickoff DATETIME NULL,
+  home_team_id INT NULL,
+  away_team_id INT NULL,
+  home_score TINYINT NULL,
+  away_score TINYINT NULL,
+  venue VARCHAR(255),
+  attendance INT,
+  referee VARCHAR(200),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (home_team_id) REFERENCES team(team_id),
+  FOREIGN KEY (away_team_id) REFERENCES team(team_id)
+) ENGINE=InnoDB;
+
+-- schedule: grouping of games into a gameweek
+CREATE TABLE IF NOT EXISTS gameweek (
+  gameweek_id INT AUTO_INCREMENT PRIMARY KEY,
+  gw_label VARCHAR(50) UNIQUE,         -- "GW1", "Regular-Week-3", or date range
+  start_date DATE,
+  end_date DATE
+) ENGINE=InnoDB;
+
+-- mapping table between gameweek and games (many-to-many)
+CREATE TABLE IF NOT EXISTS game_gameweek (
+  game_id VARCHAR(32),
+  gameweek_id INT,
+  PRIMARY KEY (game_id, gameweek_id),
+  FOREIGN KEY (game_id) REFERENCES game(game_id) ON DELETE CASCADE,
+  FOREIGN KEY (gameweek_id) REFERENCES gameweek(gameweek_id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- player-game stats (one record per player per game)
+CREATE TABLE IF NOT EXISTS player_game_stat (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  player_id VARCHAR(64),
+  game_id VARCHAR(32),
+  team_id INT,
+  minutes SMALLINT,
+  goals TINYINT,
+  assists TINYINT,
+  pens_made TINYINT,
+  pens_att TINYINT,
+  yellow_cards TINYINT,
+  red_cards TINYINT,
+  saves SMALLINT,
+  penalty_saves SMALLINT,
+  tackles SMALLINT,
+  interceptions SMALLINT,
+  clearances SMALLINT,
+  ball_recoveries SMALLINT,
+  own_goals TINYINT,
+  -- defensive_contrib is computed as per your formula but persisted for quicker queries
+  defensive_contrib INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY idx_player_game (player_id, game_id),
+  FOREIGN KEY (player_id) REFERENCES player(player_id) ON DELETE CASCADE,
+  FOREIGN KEY (game_id) REFERENCES game(game_id) ON DELETE CASCADE,
+  FOREIGN KEY (team_id) REFERENCES team(team_id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- weekly fantasy points: one row per player per gameweek
+CREATE TABLE IF NOT EXISTS fantasy_weekly_points (
+  player_id VARCHAR(64),
+  gameweek_id INT,
+  points DECIMAL(8,2) DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (player_id, gameweek_id),
+  FOREIGN KEY (player_id) REFERENCES player(player_id) ON DELETE CASCADE,
+  FOREIGN KEY (gameweek_id) REFERENCES gameweek(gameweek_id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- total points per player (cached)
+CREATE TABLE IF NOT EXISTS fantasy_player_total (
+  player_id VARCHAR(64) PRIMARY KEY,
+  total_points DECIMAL(10,2) DEFAULT 0,
+  last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (player_id) REFERENCES player(player_id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- fantasy leagues
+CREATE TABLE IF NOT EXISTS fantasy_league (
+  league_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- fantasy teams (users)
+CREATE TABLE IF NOT EXISTS fantasy_team (
+  fnwsl_team_id INT AUTO_INCREMENT PRIMARY KEY,
+  team_name VARCHAR(255) NOT NULL,
+  owner_name VARCHAR(200),
+  budget DECIMAL(7,2) DEFAULT 100.0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- mapping teams to leagues
+CREATE TABLE IF NOT EXISTS fantasy_league_membership (
+  league_id INT,
+  fnwsl_team_id INT,
+  PRIMARY KEY (league_id, fnwsl_team_id),
+  FOREIGN KEY (league_id) REFERENCES fantasy_league(league_id) ON DELETE CASCADE,
+  FOREIGN KEY (fnwsl_team_id) REFERENCES fantasy_team(fnwsl_team_id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- roster: players selected in a fantasy_team
+CREATE TABLE IF NOT EXISTS fantasy_roster (
+  fnwsl_team_id INT,
+  player_id VARCHAR(64),
+  position VARCHAR(10),       -- original position string or 'DEF','MID','FWD','GK'
+  is_starting BOOLEAN DEFAULT TRUE,
+  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (fnwsl_team_id, player_id),
+  FOREIGN KEY (fnwsl_team_id) REFERENCES fantasy_team(fnwsl_team_id) ON DELETE CASCADE,
+  FOREIGN KEY (player_id) REFERENCES player(player_id) ON DELETE CASCADE
+) ENGINE=InnoDB;
