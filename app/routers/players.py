@@ -3,13 +3,23 @@ import sqlite3
 
 conn  = sqlite3.connect('app/data/nwsl_fantasy.db')
 
-class Players(dict):
+class Players(list):
 
     def __init__(self, conn=conn):
-        players = conn.execute("SELECT * FROM PLAYERS")
+        self.player_list : list[Player] = conn.execute("SELECT * FROM PLAYERS")
 
     def display(self):
-        pass
+        for player in self.player_list:
+            player.display()
+            print("\n---------------------------------------------------------------------------------------------\n")
 
 class Player(dict):
-    pass
+    def __init__(self, player_id: int, conn=conn):
+        self.player_data : dict = conn.execute(f"SELECT * FROM PLAYERS WHERE player_id = {player_id}").fetchone()
+
+    def display(self):
+        for key, value in self.player_data.items():
+            print(f"{key}: {value}")
+
+    def return_player_copy(self):
+        return self.player_data.copy()

@@ -1,14 +1,6 @@
-def calculate_fantasy_points(player_stats: dict, position: str) -> int:
-    """
-    Example scoring function
-    """
-    points = 0
-    points += int(player_stats.get("goals_summary", 0)) * 5
-    points += int(player_stats.get("assists_summary", 0)) * 3
-    points += int(player_stats.get("minutes_summary", 0)) // 30
-    if position == "GK":
-        points += int(player_stats.get("saves_summary", 0))
-    return points
+## Scoring system for Fantasy NWSL
+from routers.players import Player
+
 
 class ScoringSystem:
     def calculate():
@@ -18,7 +10,7 @@ class MidfielderScoring(ScoringSystem):
     def __init__(self):
         self.points = 0
 
-    def calculate(self, player_stats: dict):
+    def calculate(self, player_stats: Player):
         self.points += int(player_stats.get("goals_summary", 0)) * 5
         self.points += int(player_stats.get("assists_summary", 0)) * 3
         self.points += 2 if int(player_stats.get("minutes_summary", 0)) >= 60 else 1 if int(player_stats.get("minutes_summary", 0)) > 0 else 0
@@ -29,7 +21,7 @@ class ForwardScoring(ScoringSystem):
     def __init__(self):
         self.points = 0
 
-    def calculate(self, player_stats: dict):
+    def calculate(self, player_stats: Player):
         self.points += int(player_stats.get("goals_summary", 0)) * 4
         self.points += int(player_stats.get("assists_summary", 0)) * 3
         self.points += 2 if int(player_stats.get("minutes_summary", 0)) >= 60 else 1 if int(player_stats.get("minutes_summary", 0)) > 0 else 0
@@ -39,7 +31,7 @@ class DefenderScoring(ScoringSystem):
     def __init__(self):
         self.points = 0
 
-    def calculate(self, player_stats: dict):
+    def calculate(self, player_stats: Player):
         self.points += int(player_stats.get("goals_summary", 0)) * 6
         self.points += int(player_stats.get("assists_summary", 0)) * 3
         self.points += 2 if int(player_stats.get("minutes_summary", 0)) >= 60 else 1 if int(player_stats.get("minutes_summary", 0)) > 0 else 0
@@ -50,7 +42,7 @@ class GoalkeeperScoring(ScoringSystem):
     def __init__(self):
         self.points = 0
 
-    def calculate(self, player_stats: dict):
+    def calculate(self, player_stats: Player):
         self.points += int(player_stats.get("goals_summary", 0)) * 7
         self.points += int(player_stats.get("assists_summary", 0)) * 4
         self.points += 2 if int(player_stats.get("minutes_summary", 0)) >= 60 else 1 if int(player_stats.get("minutes_summary", 0)) > 0 else 0
@@ -62,7 +54,7 @@ class BonusPointsCalculator(ScoringSystem):
     def __init__(self):
         self.points = 0
 
-    def calculate(self, player_stats: dict):
+    def calculate(self, player_stats: Player):
         bonus_categories = ["defensive_contributions", "goals", "assists"]
         bonus_points_values = {
             "defensive_contributions": 1,
