@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy NWSL - My Team</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header>"Fantasy NWSL"</header>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li> <!-- Home Page:
+                                            - Login 
+                                            - View rankings
+                                            - view team points 
+                                        -->
+        <li><a href="/players">Players</a></li> <!-- View All Players Page -->
+        <li><a href="/leagues" class="active">Leagues</a></li> <!-- View/Add leagues Page -->
+        <li><a href="/team">My Team</a></li> <!-- Substitute Page -->
+        <li><a href="/transfers">Transfers</a></li> <!-- Transfers Page -->
+        <li><a href="/points">Week Points</a></li> <!-- View Week's Page -->
+        <li><a href="/login">Login</a></li> <!-- Login Page -->
+    </ul>
+</nav>
+<main>
+    <h1>Leagues</h1>
+    <section id="league-list" class="grid"></section>
+    <button id="join-league-btn">Join League</button>"
+    <button id ="create-league-btn">Create League</button>
+</main>
+<footer>
+    <p>&copy; Fantasy NWSL</p>
+</footer>
+<script src="js/leagues.js"></script>
+</body>
+</html>

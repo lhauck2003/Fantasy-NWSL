@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy NWSL - My Team</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header>"Fantasy NWSL"</header>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li> <!-- Home Page -->
+        <li><a href="/players">Players</a></li> <!-- View All Players Page -->
+        <li><a href="/leagues">Leagues</a></li> <!-- View/Add leagues Page -->
+        <li><a href="/team" class="active">My Team</a></li> <!-- Substitute Page -->
+        <li><a href="/transfers">Transfers</a></li> <!-- Transfers Page -->
+        <li><a href="/points">Week Points</a></li> <!-- View Week's Page -->
+        <li><a href="/login">Login</a></li> <!-- Login Page -->
+    </ul>
+</nav>
+
+<main>
+    <h1>Players</h1>
+    <section id="player-list" class="grid"></section>    
+
+    <section id="my-team"></section>
+    <h3>Pick Team</h3>
+    <ul id="starters-list"></ul>
+    <ul id="substitutes-list"></ul>
+    <button id="save-team-btn">Save Team</button>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; Fantasy NWSL</p>
+</footer>
+<script src="js/starters.js"></script>
+<script src="js/substitutes.js"></script>
+</body>
+</html>

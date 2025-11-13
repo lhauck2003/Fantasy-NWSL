@@ -19,4 +19,6 @@ app.include_router(auth.router)
 def read_root():
     return {"message": "Welcome to the NWSL Fantasy API!"}
 
-
+@app.get("/players")
+def get_players():
+    return {"players": "List of players will be here."}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy NWSL</title>
+    <meta name="author" content="Levi Hauck">
+    <link rel="stylesheet" type="text/css" href="/Fantasy-NWSL/app/static/css/style.css">
+</head>
+
+<body>
+<header>Fantasy NWSL</header>
+<style>
+    header {
+    background-color: lightblue;
+    color: black;
+    text-align: left;
+    padding: 10px;
+    font-size: 48px;
+    font-weight: bold;
+    }
+    #main_nav {
+    background-color: lightblue;
+    overflow: auto;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    }
+
+    #main_nav li {
+        float: left;
+        text-align: center;
+        padding: 10px;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    #main_nav li:hover {
+        background-color: deepskyblue;
+    } 
+
+    #main_nav li a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+
+    #main_nav li a.active {
+        background-color: dodgerblue;
+        color: white;
+    }
+    .main_nav::before {
+    content: "";
+    display: table;
+    }
+
+    .main_nav::after {
+        content: "________________";
+        clear: both;
+        display: table;
+    }
+</style>
+<ul id="main_nav">
+    <li>
+        <a aria-current="page" class = "main_nav" href="/">
+            Home
+        </a></li> <!-- Home Page:
+                                        - Login 
+                                        - View rankings
+                                        - view team points 
+                                    -->
+    <li>
+        <a class = "main_nav" href="/players">
+            Players
+        </a></li> <!-- View All Players Page -->
+    <li>
+        <a class = "main_nav" href="/leagues">
+            Leagues
+        </a></li> <!-- View/Add leagues Page -->
+    <li>
+        <a class = "main_nav" href="/team">
+            My Team
+        </a></li> <!-- Substitute Page -->
+    <li>
+        <a class = "main_nav" href="/transfers">
+            Transfers
+        </a></li> <!-- Transfers Page -->
+    <li>
+        <a class = "main_nav" href="/points">
+            Week Points
+        </a></li> <!-- View Week's Page -->
+    <li>
+        <a class = "main_nav" href="/login">
+            Login
+        </a></li> <!-- Login Page -->
+</ul>
+
+<main>
+
+</main>
+<footer>
+    <p>&copy; Fantasy NWSL</p>
+</footer>
+</body>
+</html>

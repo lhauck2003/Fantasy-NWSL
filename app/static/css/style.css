@@ -1,0 +1,122 @@
+/*
+style for Fantasy NWSL application
+*/
+
+/* Title Style */
+    header {
+    background-color: lightblue;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    }
+
+/* Navigation Bar Styles */
+    #main_nav {
+        background-color: lightblue;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    #main_nav li {
+        float: left;
+        text-align: center;
+        padding: 10px;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    #main_nav li:hover {
+        background-color: deepskyblue;
+    } 
+
+    #main_nav li a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+
+    #main_nav li a.active {
+        background-color: dodgerblue;
+        color: white;
+    }
+    .main_nav::before {
+    content: "";
+    display: table;
+    }
+
+    .main_nav::after {
+        content: "________________";
+        clear: both;
+        display: table;
+    }
+/* Footer Styles */
+
+/* Grid Styles */
+    .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    }
+
+
+/* Player Card Styles */
+    .player-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+    }
+
+    .player-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    }
+
+    .player-card h3 {
+    margin: 10px 0 5px 0;
+    }
+
+    .player-card p {
+    margin: 5px 0;
+    }
+
+/* Fantasy Team Style */
+
+    #fantasy-team-grid {
+        background-image: url('Fantasy-NWSL/app/static/img/field.jpg');
+        width: 100%;
+        height: auto;
+        background-size: cover;
+        position: relative;
+        padding: 20px;
+    }
+
+    #player-grid {
+        display:flex;
+        justify-content: space-evenly;
+    }
+
+    #defender-grid {
+        padding-inline:5%;
+    }
+
+    #midfielder-grid {
+        padding-inline:0%;
+    }
+
+    #forward-grid {
+        padding-inline:15%;
+    }
+
+    #goalkeeper-grid {
+        padding-top:24px;
+    }
+
+
+    
