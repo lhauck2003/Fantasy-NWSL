@@ -1,42 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /*
 style for Fantasy NWSL application
 */
@@ -69,6 +30,7 @@ style for Fantasy NWSL application
 
     #main_nav li:hover {
         background-color: deepskyblue;
+        transition: 0.2s ease-in-out;
     } 
 
     #main_nav li a {
@@ -79,6 +41,7 @@ style for Fantasy NWSL application
 
     #main_nav li a.active {
         background-color: dodgerblue;
+        transition: 0.2s ease-in-out;
         color: white;
     }
     .main_nav::before {
@@ -91,72 +54,37 @@ style for Fantasy NWSL application
         clear: both;
         display: table;
     }
-/* Footer Styles */
+/* Mobile — stack nav vertically */
+@media (max-width: 900px) {
 
-/* Grid Styles */
-    .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
+    #main_nav {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        width: 120%;
     }
 
-
-/* Player Card Styles */
-    .player-card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
-    background-color: #f9f9f9;
-    }
-
-    .player-card img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    }
-
-    .player-card h3 {
-    margin: 10px 0 5px 0;
-    }
-
-    .player-card p {
-    margin: 5px 0;
-    }
-
-/* Fantasy Team Style */
-
-/*
-    #fantasy-team-grid {
-        background-image: url('Fantasy-NWSL/app/static/img/field.jpg');
+    #main_nav ul {
         width: 100%;
-        height: auto;
-        background-size: cover;
-        position: relative;
-        padding: 20px;
     }
 
-    #player-grid {
-        display:flex;
-        justify-content: space-evenly;
+    #main_nav li {
+        float: none;
+        width: 100%;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
     }
 
-    #defender-grid {
-        padding-inline:5%;
+    #main_nav li:last-child {
+        border-bottom: none;
     }
 
-    #midfielder-grid {
-        padding-inline:0%;
+    #main_nav li a {
+        display: block;
+        width: 100%;
     }
 
-    #forward-grid {
-        padding-inline:15%;
+    header {
+        font-size: 20px;
     }
-
-    #goalkeeper-grid {
-        padding-top:24px;
-    }
-
-
-    */
+}

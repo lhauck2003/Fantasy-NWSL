@@ -1,0 +1,479 @@
+/* Overall Container */
+.container {
+  padding: 2rem;
+  background: rgb(190, 229, 241);
+  min-height: 100vh;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Fantasy Team Section */
+.fantasy-team-container {
+  width: 700px;
+  padding: 2rem;
+  background: #f5f7fa;
+  border-radius: 12px;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+/* Header */
+.fantasy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.fantasy-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Pitch */
+.pitch {
+  background: #12841a;
+  border-radius: 20px;
+  padding: 2rem 1rem;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.3);
+  margin-bottom: 2rem;
+}
+
+.pitch-line {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* Player Slots */
+.player-slot {
+  width: 120px;
+  height: 55px;
+  border-radius: 10px;
+  border: 2px solid white;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  overflow:auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-slot:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.05);
+}
+
+/* Bench Section */
+.bench {
+  margin-top: 1rem;
+}
+
+.bench h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.bench-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.bench-slot {
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  background: #ececec;
+  border: 2px solid #ccc;
+  transition: 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bench-slot:hover {
+  background: #ddd;
+}
+
+/* Save Button */
+.save-button {
+  display: block;
+  margin: 2rem auto 0 auto;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  background: lightblue;
+  color: black;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.save-button:hover {
+  background: deepskyblue;
+  transform: scale(1.03);
+  font-weight:bold;
+}
+
+/* Player List Container */
+.player-list-container {
+  width: 400px;
+  padding: 2rem;
+  background: #f5f7fa;
+  border-radius: 12px;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  justify-content: center;
+}
+
+.filter-select {
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.filter-select:hover {
+  border-color: #888;
+}
+
+/* Player List */
+.player-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.player-list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.player-list-item:hover {
+  background: #f0f0f0;
+}
+
+.player-list-item.selected {
+  border: 2px solid #009900;
+  background: #d9f2d9;
+}
+
+/* Player Slot Filled */
+.player-slot.filled,
+.bench-slot.filled {
+  background: rgba(255,255,255,0.85);
+  color: black;
+  border: 2px solid #333;
+  font-weight: 600;
+}
+
+/* Slot Text */
+.slot-name {
+  font-size: 0.9rem;
+}
+
+.slot-pos {
+  font-size: 0.75rem;
+  color: #444;
+}
+
+/* Selected Highlight */
+.selected {
+  border: 3px solid lightblue !important;
+  box-shadow: 0 0 10px lightblue;
+}
+/* ================================
+   MOBILE RESPONSIVE LAYOUT
+   ================================ */
+@media (max-width: 900px) {
+
+  /* Stack containers vertically */
+  .container {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  /* Fantasy team box scales to screen */
+  .fantasy-team-container {
+    width: 95vw;
+    min-width: unset;
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  /* Player list box scales too */
+  .game-list-container,
+  .player-list-container {
+    width: 95vw;
+    min-width: unset;
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  /* Pitch resizes to fit */
+  .pitch {
+    padding: 1.5rem 0.5rem;
+  }
+
+  /* Shrink slots so they fit on narrow phones */
+  .player-slot {
+    width: 90px;
+    height: 65px;
+    font-size: 0.75rem;
+  }
+
+  .bench-slot {
+    width: 80px;
+    height: 60px;
+    font-size: 0.75rem;
+  }
+
+  .pitch-line {
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  /* Bench row wraps on small screens */
+  .bench-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Filters stack instead of one horizontal line */
+  .filter-bar {
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    justify-content: center;
+  }
+
+  .filter-select {
+    width: 45%;
+    min-width: 150px;
+  }
+
+  /* Header shrink */
+  .fantasy-header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+
+
+/* ================================
+   TINY PHONES (≤ 500px width)
+   ================================ */
+@media (max-width: 500px) {
+
+  .player-slot {
+    width: 75px;
+    height: 40px;
+    font-size: 0.7rem;
+  }
+
+  .bench-slot {
+    width: 70px;
+    height: 35px;
+  }
+
+  .pitch {
+    padding: 1rem 0.3rem;
+  }
+
+  .pitch-line {
+    gap: 0.3rem;
+  }
+
+  .fantasy-team-container,
+  .player-list-container,
+  .game-list-container {
+    width: 98vw;
+    padding: 1rem;
+  }
+
+  /* Filters fill full width */
+  .filter-select {
+    width: 100%;
+  }
+}
+
+
+/* ============================================
+   RESPONSIVE FIXES — DO NOT AFFECT DESKTOP
+   ============================================ */
+
+/* -------- Tablet & Small Laptops (≤ 900px) -------- */
+@media (max-width: 900px) {
+
+  /* Layout containers stack vertically */
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    align-items: center;
+    width: 200px;
+  }
+
+  .fantasy-team-container,
+  .game-list-container {
+    width: 90vw;
+    min-width: unset;
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  /* Pitch adjusts to width */
+  .pitch {
+    padding: 1.2rem 0.5rem;
+  }
+
+  .pitch-line {
+    gap: 0.6rem;
+    margin: 1rem 0;
+    flex-wrap: nowrap;
+  }
+
+  /* Player slots shrink proportionally */
+  .player-slot {
+    width: 90px;
+    height: 50px;
+    font-size: 0.75rem;
+  }
+
+  .bench-slot {
+    width: 80px;
+    height: 45px;
+    font-size: 0.75rem;
+  }
+
+  /* Bench can wrap */
+  .bench-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .bench {
+    margin-right: 0; /* Prevents overflow */
+    text-align: center;
+  }
+
+  /* Header text scaling */
+  .fantasy-header h1 {
+    font-size: 1.6rem;
+  }
+
+  /* Filters adjust */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+
+  .filter-select {
+    min-width: 150px;
+    width: 45%;
+  }
+
+  /* Modal fit */
+  .player-modal {
+    width: 90%;
+    max-height: 80vh;
+  }
+}
+
+/* -------- Mobile Phones (≤ 600px) -------- */
+@media (max-width: 600px) {
+
+  .fantasy-team-container,
+  .game-list-container {
+    width: 98vw;
+    padding: 1rem;
+  }
+
+  .pitch {
+    padding: 1rem 0.3rem;
+  }
+
+  .pitch-line {
+    gap: 0.35rem;
+  }
+
+  .player-slot {
+    width: 75px;
+    height: 40px;
+    font-size: 0.65rem;
+  }
+
+  .bench-slot {
+    width: 70px;
+    height: 35px;
+    font-size: 0.65rem;
+  }
+
+  .fantasy-header h1 {
+    font-size: 1.3rem;
+  }
+
+  /* Filters go full width */
+  .filter-select {
+    width: 100%;
+  }
+
+  /* Modal fully fits screen */
+  .player-modal {
+    width: 95%;
+    padding: 1rem;
+  }
+}
+
+/* -------- Tiny Phones (≤ 400px) -------- */
+@media (max-width: 400px) {
+
+  .player-slot {
+    width: 65px;
+    height: 35px;
+    font-size: 0.55rem;
+  }
+
+  .bench-slot {
+    width: 60px;
+    height: 32px;
+    font-size: 0.55rem;
+  }
+
+  .pitch-line {
+    gap: 0.22rem;
+  }
+
+  .fantasy-header h1 {
+    font-size: 1.1rem;
+  }
+}

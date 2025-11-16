@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import {NavigationBar, PageHeader, PageFooter } from './Main.js'
+import { api_network, local_api_network } from '../App';
 
 
-
-function LoginPage({ isLoggedIn, setIsLoggedIn }) {
-  
+function LoginPage({ isLoggedIn, setIsLoggedIn, userID, setUserID }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -17,7 +15,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }) {
 
   async function handleLogin(username, password){
     try {
-      const response = await fetch("http://127.0.0.1:8000/login", {
+      const response = await fetch(api_network + "/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -26,6 +24,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }) {
       if (response.ok) {
         const data = await response.json();
         console.log(data.message);
+        setTimeout(() => setUserID(data.userID), 0);
         setIsLoggedIn(true); // this should set isLoggedIn for all pages
         setMessage(data.message);
         setUsername("");
@@ -34,8 +33,8 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }) {
       } else {
         const err = await response.json();
         setError(err.detail || "Login failed");
-        setMessage("Login failed", error);
-        console.error("Login failed:", err);
+        setMessage("Login failed");
+        console.error("Login failed:", error);
       }
     } catch (err) {
       console.error("Error:", err);
@@ -46,6 +45,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }) {
   function handleLogout(){
     // Clear login state and any stored data
     setIsLoggedIn(false);
+    setUserID(null);
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("username");
     
@@ -53,7 +53,6 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }) {
 
   return (
     <div id="login-page">
-      <NavigationBar/>
       {isLoggedIn ? (
         <>
         <p>You are logged in.</p>
@@ -69,7 +68,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }) {
         <label htmlFor="password">Password:</label>
         <input type="password" id="password" name="password" required value={password} onChange={(e) => setPassword(e.target.value)}/>
         <br />
-        <button type="submit" isLoggedIn={isLoggedIn}>Login</button>
+        <button type="submit">Login</button>
       </form>
       </>
       )}

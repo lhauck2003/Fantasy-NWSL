@@ -1,10 +1,13 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useRoutes } from "react-router-dom";
-import TeamForm from './pages/FantasyTeam.js'
-import { NavigationBar, PageFooter, PageHeader } from './pages/Main.js'
+import { useRoutes } from "react-router-dom";
+import FantasyTeam from './pages/FantasyTeam.js'
+import { NavigationBar, PageFooter } from './pages/Main.js'
 import LoginPage from './pages/Login.js'
+import Transfers from './pages/Transfers.js'
 
+export const api_network = "http:///192.168.1.60:8000"
+export const local_api_network = "http://127.0.0.1:8000"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -15,45 +18,60 @@ function App() {
     localStorage.setItem("isLoggedIn", isLoggedIn);
   }, [isLoggedIn]);
 
+  const [userID, setUserID] = useState(() => {
+    return localStorage.getItem("userID");
+  })
+
+  useEffect(() => {
+    localStorage.setItem("userID", userID);
+  }, [userID]);
+
 
   const routes = useRoutes([
     { path: "/", element: <MainPage isLoggedIn={isLoggedIn}/> },
-    { path: "/team", element: <TeamForm isLoggedIn={isLoggedIn}/> },
-    { path: "/login", element: <LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /> },
+    { path: "/team", element: 
+      (isLoggedIn)
+      ? <FantasyTeam userID={userID}/> 
+      : <LoginPage 
+      isLoggedIn={isLoggedIn} 
+      setIsLoggedIn={setIsLoggedIn} 
+      userID={userID} 
+      setUserID={setUserID}/>},
+    { path: "/login", element: <LoginPage 
+      isLoggedIn={isLoggedIn} 
+      setIsLoggedIn={setIsLoggedIn} 
+      userID={userID} 
+      setUserID={setUserID}/> },
+    { path: "/transfers", element: 
+      (isLoggedIn)
+      ? <Transfers userID={userID}/> 
+      : <LoginPage 
+      isLoggedIn={isLoggedIn} 
+      setIsLoggedIn={setIsLoggedIn} 
+      userID={userID} 
+      setUserID={setUserID}/>}
   ]);
-  return routes;
-}
-
-function ProtectedRoute({ isLoggedIn, children }) {
-  return isLoggedIn ? children : <Navigate to="/login" />;
-}
-
-function SaveButton() {
-  const [save, setSave] = useState(false);
-
-  function handleSave(){
-    setSave(true);
-  }
-
   return (
-    <button save={save} onClick={handleSave}>{save ? "Saved" : "Save"}</button>
+    <>
+      <NavigationBar/>
+      {routes}
+      <PageFooter/>
+    </>
   );
 }
 
-function MainPage(isLoggedIn) {
+function MainPage({ isLoggedIn }) {
 
   return (
     <div id="main-page">
-      <NavigationBar/>
       <main>
         <HomePage isLoggedIn={isLoggedIn}/>
       </main>
-      <PageFooter/>
     </div>
   );
 }
 
-function HomePage(isLoggedIn) {
+function HomePage({ isLoggedIn }) {
   return (
     <div id="home-page">
       <h2>Welcome to Fantasy NWSL!</h2>

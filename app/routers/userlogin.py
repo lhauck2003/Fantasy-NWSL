@@ -2,7 +2,6 @@
 ## Uses FastAPI for API routing
 ## Uses Argon2 for password hashing and verification
 from fastapi import APIRouter, HTTPException, Depends, FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from argon2 import PasswordHasher
 # from db.data import user_db
@@ -10,20 +9,11 @@ from argon2 import PasswordHasher
 # mock user database
 user_db = {
     "testuser": {
+        "userID": "000001",
         "username": "testuser",
         "hashed_password": PasswordHasher().hash("test123")  # hash for "testpassword"
         }
 }
-
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # all origins allowed
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 router = APIRouter()
 
@@ -42,12 +32,12 @@ def login_user(request: LoginRequest):
         raise HTTPException(status_code=404, detail="User not found")
     try:
         ph.verify(user['hashed_password'], request.password)
-        return {"message": "Login successful"}
+        print(user['userID'])
+        return {"userID": user['userID']}
     except:
         raise HTTPException(status_code=401, detail="Invalid credentials")    
     
 def get_user_from_db(username: str):
     return user_db.get(username)
 
-app.include_router(router)
 
