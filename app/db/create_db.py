@@ -1,13 +1,13 @@
 # SQL Database Creation Script
 import sqlite3
 
-conn = sqlite3.connect('data/nwsl_fantasy.db')
+conn = sqlite3.connect('app/db/data/nwsl_fantasy.db')
 cursor = conn.cursor()
 
 # Player Table (Player ID, Name, Team ID, Position, etc.)
 player_table_sql = """
 CREATE TABLE IF NOT EXISTS players (
-player TEXT,
+    player TEXT,
     team_id TEXT,
     team_name TEXT,
     shirtnumber INT,
@@ -40,7 +40,7 @@ player TEXT,
     total_progressive_carries INT,
     total_take_ons INT,
     total_take_ons_won INT,
-    player_id TEXT
+    player_id TEXT,
     PRIMARY KEY (player_id),
     FOREIGN KEY (player_id) REFERENCES players(player_id)
 );
@@ -156,6 +156,6 @@ cursor.execute(player_table_sql)
 cursor.execute(team_table_sql)
 cursor.execute(player_team_table_sql)
 cursor.execute(match_table_sql)
-cursor.execute(player_match_stats_table_sql)
+#cursor.execute(player_match_stats_table_sql)
 cursor.execute(user_table_sql)
 cursor.execute(fantasy_team_table_sql)

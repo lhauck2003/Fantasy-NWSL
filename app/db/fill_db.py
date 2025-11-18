@@ -1,12 +1,12 @@
 # fills data base with data from CSVs
 import sqlite3
 import pandas as pd
-PLAYER_MATCH_STATS_CSV = "/Users/levihauck/Documents/NWSL_fantasy/NWSL-Fantasy/app/db/data/player_match_stats.csv"
-PLAYER_CSV = '/Users/levihauck/Documents/NWSL_fantasy/NWSL-Fantasy/app/db/data/players.csv'
-TEAM_CSV = '/Users/levihauck/Documents/NWSL_fantasy/NWSL-Fantasy/app/db/data/teams.csv'
-MATCH_CSV = '/Users/levihauck/Documents/NWSL_fantasy/NWSL-Fantasy/app/db/data/matches.csv'
+PLAYER_MATCH_STATS_CSV = "/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/player_match_stats.csv"
+PLAYER_CSV = '/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/stats-11-17.csv'
+TEAM_CSV = '/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/teams.csv'
+MATCH_CSV = '/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/matches.csv'
 
-DB = "/Users/levihauck/Documents/NWSL_fantasy/NWSL-Fantasy/app/db/data/nwsl_fantasy.db"
+DB = "/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/nwsl_fantasy.db"
 
 conn = sqlite3.connect(DB)
 cursor = conn.cursor()  
@@ -23,6 +23,9 @@ teams_df.to_csv(TEAM_CSV, mode='a', header=not pd.io.common.file_exists(TEAM_CSV
 
 
 # Load data to Player Table (Player ID, Name, Team ID, Position, etc.)
+players_df = pd.read_csv(PLAYER_CSV)
+print(players_df)
+players_df.to_sql('players', conn, if_exists='replace', index=False)
 
 # Load data to the Team Table (Team ID, Name, City)
 

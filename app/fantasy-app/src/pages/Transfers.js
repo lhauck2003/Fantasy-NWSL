@@ -99,10 +99,10 @@ export default function Transfers({ userID }) {
   // Helper to map position to group
   function getGroupKeyByPosition(position) {
     const pos = (position || "").toUpperCase();
-    if (pos === "GK") return "goalkeeper";
-    if (pos === "DEF" || pos === "DF") return "defenders";
-    if (pos === "MID" || pos === "MF") return "midfielders";
-    if (pos === "FW" || pos === "FWD" || pos === "ST") return "forwards";
+    if (pos === "G") return "goalkeeper";
+    if (pos === "D") return "defenders";
+    if (pos === "M") return "midfielders";
+    if (pos === "F") return "forwards";
     return "midfielders";
   }
 
@@ -232,10 +232,10 @@ export default function Transfers({ userID }) {
 
           <select className="filter-select" value={selectedPosition} onChange={e => setSelectedPosition(e.target.value)}>
             <option value="">All Positions</option>
-            <option value="GK">Goalkeepers</option>
-            <option value="DEF">Defenders</option>
-            <option value="MID">Midfielders</option>
-            <option value="FW">Forwards</option>
+            <option value="G">Goalkeepers</option>
+            <option value="D">Defenders</option>
+            <option value="M">Midfielders</option>
+            <option value="F">Forwards</option>
           </select>
 
           <select className="filter-select" value={priceSort} onChange={e => setPriceSort(e.target.value)}>
@@ -252,7 +252,7 @@ export default function Transfers({ userID }) {
               className={`player-list-item ${selectedPlayer?.player.id === player.id ? "selected" : ""}`}
               onClick={() => handlePlayerClick(player, "transferIn")}
             >
-              <div className="list-name">{player.name}</div>
+              <div className="list-name">{player.player}</div>
               <div className="list-pos">{player.position}</div>
               <div className="list-team">{player.team}</div>
               <div className="list-price">${player.price}</div>

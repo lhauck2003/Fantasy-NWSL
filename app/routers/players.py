@@ -1,25 +1,35 @@
-## Code for displaying a catalog of all the players, ability to sort by a particular stat
-import sqlite3
+from fastapi import APIRouter
+from pydantic import BaseModel
+from typing import Dict, Any, Union
+from modules.players import players_db_dict
 
-conn  = sqlite3.connect('app/data/nwsl_fantasy.db')
+router = APIRouter()
 
-class Players(list):
+class PlayerRequest(BaseModel):
+    which: Union[str, Dict[str, Any]]
 
-    def __init__(self, conn=conn):
-        self.player_list : list[Player] = conn.execute("SELECT * FROM PLAYERS")
+@router.post("/players")
+def get_players(req: PlayerRequest):
+    filters = req.which
 
-    def display(self):
-        for player in self.player_list:
-            player.display()
-            print("\n---------------------------------------------------------------------------------------------\n")
+    # Return all players
+    if filters == "all":
+        return {
+            "players": [
+                {"id": pid, **dict(player)}
+                for pid, player in players_db_dict.items()
+            ]
+        }
 
-class Player(dict):
-    def __init__(self, player_id: int, conn=conn):
-        self.player_data : dict = conn.execute(f"SELECT * FROM PLAYERS WHERE player_id = {player_id}").fetchone()
+    # Filtering
+    results = []
+    for pid, player in players_db_dict.items():
+        match = True
+        for key, value in filters.items():
+            if player.get(key) != value:
+                match = False
+                break
+        if match:
+            results.append({"id": pid, **dict(player)})
 
-    def display(self):
-        for key, value in self.player_data.items():
-            print(f"{key}: {value}")
-
-    def return_player_copy(self):
-        return self.player_data.copy()
+    return {"players": results}

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from app.db import catalog
-from routers import userlogin, fantasy_team, transfers
+from routers import userlogin, fantasy_team, players
 
 app = FastAPI(title="NWSL Fantasy API")
 
@@ -14,9 +14,8 @@ app.add_middleware(
 )
 
 # Include routers
-# app.include_router(players.router)
 # app.include_router(leagues.router)
 app.include_router(fantasy_team.router)
-app.include_router(transfers.router)
+app.include_router(players.router)
 # app.include_router(auth.router)
 app.include_router(userlogin.router)

@@ -6,7 +6,7 @@ import { NavigationBar, PageFooter } from './pages/Main.js'
 import LoginPage from './pages/Login.js'
 import Transfers from './pages/Transfers.js'
 
-export const api_network = "http:///192.168.1.60:8000"
+export const api_network = "http://localhost:8000"
 export const local_api_network = "http://127.0.0.1:8000"
 
 function App() {

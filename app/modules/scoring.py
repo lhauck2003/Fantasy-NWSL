@@ -1,5 +1,5 @@
 ## Scoring system for Fantasy NWSL
-from routers.players import Player
+from modules.players import Player
 
 
 class ScoringSystem:
@@ -55,12 +55,12 @@ class BonusPointsCalculator(ScoringSystem):
         self.points = 0
 
     def calculate(self, player_stats: Player):
-        bonus_categories = ["defensive_contributions", "goals", "assists"]
-        bonus_points_values = {
+        self.bonus_categories = ["defensive_contributions", "goals", "assists"]
+        self.bonus_points_values = {
             "defensive_contributions": 1,
             "goals": 10,
             "assists": 6
         }
-        for category in bonus_categories:
-            self.points += int(player_stats.get(f"{category}_summary", 0)) * bonus_points_values[category]
+        for category in self.bonus_categories:
+            self.points += int(player_stats.get(f"{category}_summary", 0)) * self.bonus_points_values[category]
         return self.points
