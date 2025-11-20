@@ -13,6 +13,7 @@ Planned Functionality
 
 How to run program:
 - Download the codebase
+- Run the create_db.py script and then the fill_db script in Fantasy-NWSL/app/db
 - In the app folder (Fantasy-NWSL/app) run the API:
   `uvicorn main:app --reload`
 - In a seperate terminal, in the fantasy-app folder (Fantasy-NWSL/app/fantasy-app), run:
