@@ -4,6 +4,7 @@ Current Functionality (as of 11/20/2025)
 - a default team
 - ability to sub in/out players in My Team page (does not save yet)
 - ability to transfer in/out players in Transfers page (does not save yet)
+- ability to view players and sort by stat in Players Page
 
 Planned Functionality
 - save team
