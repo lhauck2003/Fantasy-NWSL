@@ -1,0 +1,131 @@
+/* Full page container */
+.stats-table-container {
+  min-width: 100vh;
+  height: 100vh;
+  padding: 1rem 2rem;
+  background: #f5f7fa;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+/* Table wrapper */
+.stats-table-wrapper {
+  width: 100%;
+  border: 2px solid #ccc; 
+  border-radius: 12px;
+  background: white;
+  overflow: scroll;
+  box-sizing: border-box;
+}
+
+/* Table element */
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+/* Header row */
+.stats-table thead {
+  background: #e8ecf2;
+  border-bottom: 2px solid #bbb;
+}
+
+/* Header cells as buttons */
+.stats-table th {
+  padding: 0.9rem;
+  border-right: 2px solid #ccc;
+  border-bottom: 2px solid #bbb;
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  background: #e8ecf2;
+  transition: background 0.2s, border-color 0.2s;
+  user-select: none;
+}
+
+.stats-table th:last-child {
+  border-right: none;
+}
+
+/* Hover highlight */
+.stats-table th:hover {
+  background: #d8dce3;
+  border-color: #999;
+}
+
+/* Sort indicators */
+.stats-table th.sorted-asc::after,
+.stats-table th.sorted-desc::after {
+  border: 6px solid transparent;
+  position: relative;
+  left: 8px;
+  background-color: lightblue;
+}
+
+.stats-table th.sorted-asc::after {
+  border-bottom-color: #444;
+  background-color: lightblue;
+}
+
+.stats-table th.sorted-desc::after {
+  border-top-color: #444;
+  background-color: lightblue;
+}
+
+/* Body cells */
+.stats-table td {
+  padding: 0.85rem;
+  border-right: 2px solid #eee;
+  border-bottom: 2px solid #eee;
+}
+
+.stats-table td:last-child {
+  border-right: none;
+}
+
+/* Hover row highlight */
+.stats-table tbody tr:hover {
+  background: #f3f4f6;
+}
+
+/* Player column */
+.player-name {
+  font-weight: 600;
+}
+
+.player-name a {
+  text-decoration: none;
+  color: #191269;
+}
+
+/* Team small pill */
+.team-tag {
+  padding: 0.2rem 0.5rem;
+  background: #eef0f4;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  margin-left: 8px;
+  display: inline-block;
+}
+
+/* Position chip */
+.pos-chip {
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: black;
+}
+
+/* Colors matching FPL */
+.pos-chip.F { background: #f9a9e8; }
+.pos-chip.M { background: #a6fae5; }
+.pos-chip.D { background: #a1cefa; }
+.pos-chip.G  { background: #ffddb7; }
+
+/* Numeric columns */
+.numeric {
+  text-align: center;
+  font-weight: 600;
+}

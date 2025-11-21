@@ -40,7 +40,7 @@ export default function FantasyTeam({ userID }) {
     }
   }
 
-  if (!team) return <p>Loading team...</p>;
+  if (!team) return <p href = "/transfers" >No Team associated with user. Create a Team First in "Transfers"</p>;
 
   const formationRows = [
     { label: "Goalkeeper", key: "goalkeeper" },
@@ -53,10 +53,10 @@ export default function FantasyTeam({ userID }) {
   // helper: map player.position to team group key
 function getGroupKeyByPosition(position) {
   const pos = (position || "").toUpperCase();
-  if (pos === "GK") return "goalkeeper";
-  if (pos === "DEF" || pos === "DF") return "defenders";
-  if (pos === "MID" || pos === "MF") return "midfielders";
-  if (pos === "FWD" || pos === "FW" || pos === "ST") return "forwards";
+  if (pos === "G") return "goalkeeper";
+  if (pos === "D") return "defenders";
+  if (pos === "M") return "midfielders";
+  if (pos === "F") return "forwards";
   // default fallback:
   return "midfielders";
 }
@@ -82,7 +82,7 @@ function makeCaptain(player) {
   // Assign captain to selected player
   const g = getGroupKeyByPosition(player.position);
   newTeam[g] = newTeam[g].map(p =>
-    p.id === player.id ? { ...p, captain: true } : p
+    p.player_id === player.player_id ? { ...p, captain: true } : p
   );
 
   setTeam(newTeam);
@@ -133,8 +133,8 @@ function handlePlayerClick(player, groupKey) {
   };
 
   // --- Remove players from their old groups ---
-  newTeam.substitutes = newTeam.substitutes.filter((p) => p.id !== bench.player.id);
-  newTeam[field.groupKey] = newTeam[field.groupKey].filter((p) => p.id !== field.player.id);
+  newTeam.substitutes = newTeam.substitutes.filter((p) => p.player_id !== bench.player.player_id);
+  newTeam[field.groupKey] = newTeam[field.groupKey].filter((p) => p.player_id !== field.player.player_id);
 
   // --- Add players to their new groups ---
   // field player goes to bench
@@ -170,7 +170,7 @@ function handlePlayerClick(player, groupKey) {
     const finalFieldGroup = getGroupKeyByPosition(bench.player.position);
 
     newTeam[finalFieldGroup] = newTeam[finalFieldGroup].map(p =>
-      p.id === bench.player.id ? { ...p, captain: true } : p
+      p._player_id === bench.player.player_id ? { ...p, captain: true } : p
     );
   }
 
@@ -204,7 +204,7 @@ function handlePlayerClick(player, groupKey) {
       {/* Captain */}
       {captainMenuOpen && selectedPlayer && selectedPlayer.groupKey !== "substitutes" && (
       <div className="captain-controls">
-        <p>Selected: {selectedPlayer.player.name}</p>
+        <p>Selected: {selectedPlayer.player.player}</p>
         <button
           className="captain-button"
           onClick={() => makeCaptain(selectedPlayer.player)}
@@ -231,11 +231,11 @@ function handlePlayerClick(player, groupKey) {
             >
               {team[row.key].map((player) => (
                 <button
-                  key={player.id}
-                  className={`player-slot ${selectedPlayer?.player.id === player.id ? "selected" : ""}`}
+                  key={player.player_id}
+                  className={`player-slot ${selectedPlayer?.player.player_id === player.player_id ? "selected" : ""}`}
                   onClick={() => handlePlayerClick(player, row.key)}
                 >
-                  <div className="slot-name">{player.name}</div>
+                  <div className="slot-name">{player.player}</div>
                   <div className="slot-pos">{player.position}</div>
                   <div className="captain">{player.captain ? <>&copy;</> : ""}</div>
 
@@ -251,11 +251,11 @@ function handlePlayerClick(player, groupKey) {
       <div className="bench-row">
         {team.substitutes.map((player) => (
           <button
-            key={player.id}
-            className={`bench-slot ${selectedPlayer?.player.id === player.id ? "selected" : ""}`}
+            key={player.player_id}
+            className={`bench-slot ${selectedPlayer?.player.player_id === player.player_id ? "selected" : ""}`}
             onClick={() => handlePlayerClick(player, "substitutes")}
           >
-            <div className="slot-name">{player.name}</div>
+            <div className="slot-name">{player.player}</div>
             <div className="slot-pos">{player.position}</div>
           </button>
         ))}

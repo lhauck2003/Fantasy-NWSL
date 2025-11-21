@@ -31,3 +31,40 @@ players_df.to_sql('players', conn, if_exists='replace', index=False)
 
 
 # Load data to Match Table
+
+# Load testuser team
+team_df = pd.DataFrame([{"user_id": "000001", "team_id": 1}])
+print(team_df)
+team_df.to_sql('fantasy_teams', conn, if_exists='replace', index=False)
+
+team_players_df = pd.DataFrame([
+    {"f_team_id":1, "player_id": "45419c74", "is_sub": "True"},
+    {"f_team_id":1, "player_id": "e79fcfd2", "is_sub": "True"},
+    {"f_team_id":1, "player_id": "51e267dc", "is_sub": "True"},
+    {"f_team_id":1, "player_id": "06115ef0", "is_sub": "True"},
+    {"f_team_id":1, "player_id": "53cef818", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "edb4b4b1", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "24a238da", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "e31c93ca", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "49d6d4a8", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "845abb1a", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "3a794757", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "9982f5c6", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "7824185a", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "81b39775", "is_sub": "False"},
+    {"f_team_id":1, "player_id": "30f6344f", "is_sub": "False"},
+])
+print(team_players_df)
+team_players_df.to_sql('fantasy_teams_rel', conn, if_exists='replace', index=False)
+
+STARTERS_SQL = """
+    SELECT * FROM players p
+    JOIN fantasy_teams_rel r ON p.player_id = r.player_id
+    JOIN fantasy_teams ft ON ft.team_id = r.f_team_id
+    WHERE ft.user_id = ?
+    AND r.is_sub = "False"
+"""
+
+rows = conn.execute(STARTERS_SQL, ("000001",)).fetchall()
+df = pd.DataFrame(rows)
+print(df)

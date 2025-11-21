@@ -87,7 +87,8 @@ export default function Transfers({ userID }) {
     return [];
   }
 
-  if (!team) return <p>Loading team...</p>;
+  if (!team) return (<p>Team loading...</p>)
+    //setTeam(defaultTeam()); // set to default id no team: user needs to create one
 
   const formationRows = [
     { label: "Goalkeeper", key: "goalkeeper" },
@@ -107,52 +108,113 @@ export default function Transfers({ userID }) {
   }
 
   // Handle player click (transfer in/out)
-  function handlePlayerClick(player, groupKey) {
-    if (!selectedPlayer) {
-      setSelectedPlayer({ player, groupKey });
-      return;
-    }
-
-    const first = selectedPlayer;
-    const second = { player, groupKey };
-
-    const isBenchFirst = first.groupKey === "substitutes";
-    const isBenchSecond = second.groupKey === "substitutes";
-
-    // Only allow bench/field <-> list swaps
-    if (isBenchFirst === isBenchSecond) {
-      setSelectedPlayer(null);
-      return;
-    }
-
-    const bench = isBenchFirst ? first : second;
-    const field = isBenchFirst ? second : first;
-
-    const newTeam = {
-      goalkeeper: [...team.goalkeeper],
-      defenders: [...team.defenders],
-      midfielders: [...team.midfielders],
-      forwards: [...team.forwards],
-      substitutes: [...team.substitutes],
-    };
-
-    newTeam.substitutes = newTeam.substitutes.filter(p => p.id !== bench.player.id);
-    newTeam[field.groupKey] = newTeam[field.groupKey].filter(p => p.id !== field.player.id);
-
-    newTeam.substitutes.push(field.player);
-    const benchTargetGroup = getGroupKeyByPosition(bench.player.position);
-    newTeam[benchTargetGroup].push(bench.player);
-
-    // Validation
-    if (newTeam.defenders.length < 3 || newTeam.goalkeeper.length !== 1 || newTeam.forwards.length < 1) {
-      alert("Invalid team formation!");
-      setSelectedPlayer(null);
-      return;
-    }
-
-    setTeam(newTeam);
-    setSelectedPlayer(null);
+function handlePlayerClick(player, groupKey) {
+  if (!selectedPlayer) {
+    setSelectedPlayer({ player, groupKey });
+    return;
   }
+
+  const first = selectedPlayer;
+  const second = { player, groupKey };
+
+  const isFirstList = first.groupKey === "transferIn";
+  const isSecondList = second.groupKey === "transferIn";
+
+  const isFirstTeam = !isFirstList;
+  const isSecondTeam = !isSecondList;
+
+  // -------------------------------------------------------
+  // Only list ↔ team swaps allowed
+  // -------------------------------------------------------
+  if (isFirstTeam && isSecondTeam) {
+    setSelectedPlayer(null);
+    return;
+  }
+  if (isFirstList && isSecondList) {
+    setSelectedPlayer(second);
+    return;
+  }
+
+  const listPlayer = isFirstList ? first : second;
+  const teamPlayer = isFirstTeam ? first : second;
+
+  const targetGroup = teamPlayer.groupKey; // player must replace same position slot
+
+  const incoming = listPlayer.player;
+  const outgoing = teamPlayer.player;
+
+  // -------------------------------------------------------
+  // **CHECK #1: Position must match**
+  // -------------------------------------------------------
+  const incomingPos = incoming.position || incoming.pos || incoming.player_position;
+  const outgoingPos = outgoing.position || outgoing.pos || outgoing.player_position;
+
+  if (incomingPos !== outgoingPos) {
+    alert(`Position mismatch: ${incomingPos} cannot replace ${outgoingPos}`);
+    setSelectedPlayer(null);
+    return;
+  }
+
+  // -------------------------------------------------------
+  // Build new team object
+  // -------------------------------------------------------
+  const newTeam = {
+    goalkeeper: [...team.goalkeeper],
+    defenders: [...team.defenders],
+    midfielders: [...team.midfielders],
+    forwards: [...team.forwards],
+    substitutes: [...team.substitutes],
+  };
+
+  // remove outgoing player from their slot
+  newTeam[targetGroup] = newTeam[targetGroup].filter(
+    p => p.player_id !== outgoing.player_id
+  );
+
+  // -------------------------------------------------------
+  // **CHECK #2: Prevent duplicates**
+  // -------------------------------------------------------
+  const allPlayers = Object.values(newTeam).flat();
+  const alreadyHasPlayer = allPlayers.some(
+    p => p.player_id === incoming.player_id
+  );
+
+  if (alreadyHasPlayer) {
+    alert("You already have this player on your team.");
+    setSelectedPlayer(null);
+    return;
+  }
+
+  // add incoming player to slot
+  newTeam[targetGroup].push({ ...incoming });
+
+  // -------------------------------------------------------
+  // Formation rules (optional, keep your existing ones)
+  // -------------------------------------------------------
+  if (newTeam.goalkeeper.length !== 1) {
+    alert("You must have exactly one goalkeeper.");
+    setSelectedPlayer(null);
+    return;
+  }
+  if (newTeam.defenders.length < 3) {
+    alert("At least 3 defenders required.");
+    setSelectedPlayer(null);
+    return;
+  }
+  if (newTeam.forwards.length < 1) {
+    alert("At least one forward required.");
+    setSelectedPlayer(null);
+    return;
+  }
+
+  // -------------------------------------------------------
+  // Apply new team
+  // -------------------------------------------------------
+  setTeam(newTeam);
+  setSelectedPlayer(null);
+}
+
+
 
   async function saveTeam() {
     try {
@@ -189,11 +251,11 @@ export default function Transfers({ userID }) {
             <div className="pitch-line" key={row.key}>
               {team[row.key].map(player => (
                 <button
-                  key={player.id}
-                  className={`player-slot ${selectedPlayer?.player.id === player.id ? "selected" : ""}`}
+                  key={player.player_id}
+                  className={`player-slot ${selectedPlayer?.player.player_id === player.player_id ? "selected" : ""}`}
                   onClick={() => handlePlayerClick(player, row.key)}
                 >
-                  <div className="slot-name">{player.name}</div>
+                  <div className="slot-name">{player.player}</div>
                   <div className="slot-pos">{player.position}</div>
                 </button>
               ))}
@@ -206,11 +268,11 @@ export default function Transfers({ userID }) {
         <div className="bench-row">
           {team.substitutes.map(player => (
             <button
-              key={player.id}
-              className={`bench-slot ${selectedPlayer?.player.id === player.id ? "selected" : ""}`}
+              key={player.player_id}
+              className={`bench-slot ${selectedPlayer?.player.player_id === player.player_id ? "selected" : ""}`}
               onClick={() => handlePlayerClick(player, "substitutes")}
             >
-              <div className="slot-name">{player.name}</div>
+              <div className="slot-name">{player.player}</div>
               <div className="slot-pos">{player.position}</div>
             </button>
           ))}
@@ -248,14 +310,14 @@ export default function Transfers({ userID }) {
         <div className="player-list">
           {filteredPlayers.map(player => (
             <button
-              key={player.id}
-              className={`player-list-item ${selectedPlayer?.player.id === player.id ? "selected" : ""}`}
+              key={player.player_id}
+              className={`player-list-item ${selectedPlayer?.player.player_id === player.player_id ? "selected" : ""}`}
               onClick={() => handlePlayerClick(player, "transferIn")}
             >
               <div className="list-name">{player.player}</div>
               <div className="list-pos">{player.position}</div>
               <div className="list-team">{player.team}</div>
-              <div className="list-price">${player.price}</div>
+              <div className="list-price">${player.price}M</div>
             </button>
           ))}
         </div>

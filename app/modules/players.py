@@ -1,7 +1,7 @@
 import sqlite3
 
 # Connect with row_factory so rows behave like dicts!
-conn = sqlite3.connect('./db/data/nwsl_fantasy.db')
+conn = sqlite3.connect('/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/nwsl_fantasy.db')
 conn.row_factory = sqlite3.Row
 
 
@@ -21,7 +21,27 @@ class Player(dict):
         return 0
 
     def update_price(self, diff: float):
-        self["price"] = float(self["price"]) + diff
+        if("price" in self.keys()):
+            self["price"] = float(self["price"]) + diff
+        else:
+            self["price"] = diff
+
+    def update_owner_count(self, diff: int):
+        if("owners_count" in self.keys()):
+            self["owners_count"] = float(self["owners_count"]) + diff
+        else:
+            self["owners_count"] = diff
+        if(self["owners_count"] < 0):
+            self["owners_count"] = 0
+
+    def change_team(self, new_team_name: str, create_new_team: bool):
+        team_options = conn.execute(
+            "SELECT DISTINCT team FROM PLAYERS"
+        ).fetchall()
+        if ((new_team_name in team_options) or create_new_team):
+            self["team"] = new_team_name
+        else:
+            raise Exception("Team does not exist. Set create_new_team arg to True to create new team")
         
 
 # ----------------------------------------------------------
@@ -138,10 +158,37 @@ class Players(list):
             p.display()
             print("-" * 80)
 
+    def calculate_points(self, week_id):
+        for p in self:
+            p.calculate_points(week_id)
+
+    def update_price_ind(self, diff: dict):
+        for p in self:
+            p.update_price(diff["player_id"])
+
+    def update_price_all(self, diff: int):
+        for p in self:
+            p.update_price(diff)
+
 
 # ----------------------------------------------------------------
 # Global players_db (like your original)
 # ----------------------------------------------------------------
-players_db = Players()
-# convert list to {id: player} dict
-players_db_dict = {player["player_id"]: player for player in players_db}
+#players_db = Players()
+#players_db.update_price_all(5)
+## convert list to {id: player} dict
+#players_db_dict = {player["player_id"]: player for player in players_db}
+
+# for the api
+async def get_players_db():
+    players_db = Players()
+    players_db.update_price_all(5)
+
+    # update prices
+    # diff = calculate_player_price_change()
+    # players_db.update_price_ind(diff)
+
+    # convert list to {id: player} dict
+    players_db_dict = {player["player_id"]: player for player in players_db}
+    return players_db_dict
+
