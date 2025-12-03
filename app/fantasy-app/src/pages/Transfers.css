@@ -210,7 +210,7 @@
 /* ================================
    MOBILE RESPONSIVE LAYOUT
    ================================ */
-@media (max-width: 900px) {
+@media (max-width: 1050px) {
 
   /* Stack containers vertically */
   .container {
@@ -245,7 +245,7 @@
   /* Shrink slots so they fit on narrow phones */
   .player-slot {
     width: 90px;
-    height: 65px;
+    height: 100px;
     font-size: 0.75rem;
   }
 
@@ -289,17 +289,17 @@
 /* ================================
    TINY PHONES (≤ 500px width)
    ================================ */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 
   .player-slot {
     width: 75px;
-    height: 40px;
+    height: 80px;
     font-size: 0.7rem;
   }
 
   .bench-slot {
     width: 70px;
-    height: 35px;
+    height: 60px;
   }
 
   .pitch {
@@ -428,13 +428,13 @@
 
   .player-slot {
     width: 75px;
-    height: 40px;
+    height: 80px;
     font-size: 0.65rem;
   }
 
   .bench-slot {
     width: 70px;
-    height: 35px;
+    height: 65px;
     font-size: 0.65rem;
   }
 
@@ -458,14 +458,14 @@
 @media (max-width: 400px) {
 
   .player-slot {
-    width: 65px;
-    height: 35px;
+    width: 75px;
+    height: 75px;
     font-size: 0.55rem;
   }
 
   .bench-slot {
-    width: 60px;
-    height: 32px;
+    width: 70px;
+    height: 62px;
     font-size: 0.55rem;
   }
 

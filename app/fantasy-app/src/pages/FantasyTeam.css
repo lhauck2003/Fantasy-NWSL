@@ -15,7 +15,7 @@
     width: 700px;
     height: 1000px;
     */
-    min-width: 80vh;
+  min-width: 80vh;
   padding: 2rem;
   background: #f5f7fa;
   border-radius: 12px;
@@ -163,7 +163,7 @@
 
 .player-modal {
   width: 400px;
-  max-height: 70vh;
+  max-height: 80vh;
   overflow-y: auto;
   background: white;
   padding: 1.5rem;
@@ -293,18 +293,17 @@
     height: 1000px;
     */
     min-width:50vh;
-    min-height: 100vh;
+    min-height: unset;
     padding: 2rem;
     background: #f5f7fa;
     border-radius: 12px;
-    min-height: 100vh;
     overflow: auto;
 }
 
 /* ================================
    MOBILE RESPONSIVE LAYOUT
    ================================ */
-@media (max-width: 900px) {
+@media (max-width: 1050px) {
 
   /* Stack containers vertically */
   .container {
@@ -339,7 +338,7 @@
   /* Shrink slots so they fit on narrow phones */
   .player-slot {
     width: 90px;
-    height: 65px;
+    height: 100px;
     font-size: 0.75rem;
   }
 
@@ -383,17 +382,17 @@
 /* ================================
    TINY PHONES (≤ 500px width)
    ================================ */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 
   .player-slot {
     width: 75px;
-    height: 40px;
+    height: 80px;
     font-size: 0.7rem;
   }
 
   .bench-slot {
     width: 70px;
-    height: 35px;
+    height: 60px;
   }
 
   .pitch {
@@ -463,7 +462,7 @@
 
   .bench-slot {
     width: 80px;
-    height: 45px;
+    height: 80px;
     font-size: 0.75rem;
   }
 
@@ -531,7 +530,7 @@
 
   .player-slot {
     width: 75px;
-    height: 40px;
+    height: 80px;
     font-size: 0.65rem;
   }
 
@@ -571,7 +570,7 @@
 
   .player-slot {
     width: 65px;
-    height: 35px;
+    height: 65px;
     font-size: 0.55rem;
   }
 

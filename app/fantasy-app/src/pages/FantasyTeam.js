@@ -173,6 +173,13 @@ function handlePlayerClick(player, groupKey) {
     return;
   }
 
+  // 3. Prevent less than 1 forward
+  if (newTeam.forwards.length < 1) {
+    alert("You must have at least 1 forward on the field.");
+    setSelectedPlayer(null);
+    return;
+  }
+
   // Swap captain if needed
   if (field.player.captain === true || bench.player.captain === true) {
     // Remove captain from everyone first
