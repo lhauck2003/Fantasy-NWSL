@@ -55,7 +55,7 @@ style for Fantasy NWSL application
         display: table;
     }
 /* Mobile — stack nav vertically */
-@media (max-width: 900px) {
+@media (max-width: 1050) {
 
     #main_nav {
         display: flex;

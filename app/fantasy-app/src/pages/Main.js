@@ -1,20 +1,49 @@
-function NavigationBar() {
+import './Navbar.css'
+
+import { useState } from "react";
+import "./Navbar.css";   // You will paste the CSS I give next
+
+export default function NavigationBar() {
+  const [open, setOpen] = useState(false);
+
+  const navItems = [
+    { label: "Home", href: "/" },
+    { label: "Players", href: "/players" },
+    { label: "Leagues", href: "/leagues" },
+    { label: "My Team", href: "/team" },
+    { label: "Transfers", href: "/transfers" },
+    { label: "Week Points", href: "/points" },
+    { label: "Login", href: "/login" },
+  ];
+
   return (
-    <div id="main-page">
-      <PageHeader/>
-      <header>Fantasy NWSL</header>
-      <ul id="main_nav">
-          <li><a aria-current="page" class = "main_nav" href="/">Home</a></li> 
-          <li><a class = "main_nav" href="/players">Players</a></li>
-          <li><a class = "main_nav" href="/leagues">Leagues</a></li>
-          <li><a class = "main_nav" href="/team">My Team</a></li>
-          <li><a class = "main_nav" href="/transfers">Transfers</a></li>
-          <li><a class = "main_nav" href="/points">Week Points</a></li>
-          <li><a class = "main_nav" href="/login">Login</a></li> 
-      </ul>
+    <header className="navbar">
+      <div className="nav-left">
+        <div className="logo">Fantasy NWSL</div>
+
+        {/* Hamburger button */}
+        <button
+          className="hamburger"
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle Menu"
+        >
+          ☰
+        </button>
+
+        {/* Navigation Links (desktop + mobile) */}
+        <nav className={`nav-links ${open ? "open" : ""}`}>
+          {navItems.map((item) => (
+            <a key={item.href} href={item.href}>
+              {item.label}
+            </a>
+          ))}
+        </nav>
       </div>
+    </header>
   );
 }
+
+
 
 function PageHeader() {
   return (
@@ -27,6 +56,7 @@ function PageHeader() {
       </head>
   );
 }
+
 
 function PageFooter() {
   return (

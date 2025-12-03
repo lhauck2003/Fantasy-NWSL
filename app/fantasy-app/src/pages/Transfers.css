@@ -51,7 +51,7 @@
 /* Player Slots */
 .player-slot {
   width: 120px;
-  height: 55px;
+  height: 100px;
   border-radius: 10px;
   border: 2px solid white;
   background: rgba(255,255,255,0.15);
@@ -59,7 +59,7 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: 0.2s;
-  overflow:auto;
+  overflow:hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,8 +87,8 @@
 }
 
 .bench-slot {
-  width: 100px;
-  height: 50px;
+  width: 120px;
+  height: 80px;
   border-radius: 10px;
   background: #ececec;
   border: 2px solid #ccc;

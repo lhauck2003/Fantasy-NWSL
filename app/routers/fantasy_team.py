@@ -9,31 +9,43 @@ router = APIRouter()
 class TeamRequest(BaseModel):
     userID: str
 
-@router.post('/fetch_team')
-async def fetch_team(request: TeamRequest):
-    team = await get_team(request.userID)
-    #print(team)
+#@router.post('/fetch_team')
+#async def fetch_team(request: TeamRequest):
+#    team = await get_team(request.userID)
+#    #print(team)
+#    if not team:
+#        return default_team()
+#        raise HTTPException(status_code=404, detail="User not found") 
+#    return team
+#
+class TeamPost(BaseModel):
+    team: dict
+
+#@router.post('/save_team')
+#async def save_team(request: TeamPost):
+#    (error, message) = await set_team(request.userID, request.team)
+#    if error:
+#        print("Error saving team:", message)
+#        raise HTTPException(status_code=404, detail=message)
+    
+@router.get('/fetch_team/{userID}')
+async def fetch_team(userID: str):
+    team = await get_team(userID)
     if not team:
-        return default_team()
         raise HTTPException(status_code=404, detail="User not found") 
     return team
 
-class TeamPost(BaseModel):
-    userID: str
-    team: dict
-
-@router.post('/save_team')
-async def save_team(request: TeamPost):
-    (error, message) = await set_team(request.userID, request.team)
+@router.post('/save_team/{userID}')
+async def save_team(userID: str, request: TeamPost):
+    (error, message) = await set_team(userID, request.team)
     if error:
         print("Error saving team:", message)
         raise HTTPException(status_code=404, detail=message)
-    
 
 async def set_team(userID: str, team: dict):
     #team_db['userID'] = team
     #return False, ""
-    (error, message) = await save_fantasy_team(team, userID)
+    (error, message) = await save_fantasy_team(team, userID, week_id="current")
     return (error, message)
 
 async def get_team(userID: str):

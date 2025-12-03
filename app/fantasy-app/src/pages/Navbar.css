@@ -1,0 +1,125 @@
+/* NAVBAR */
+.navbar {
+  min-width: 100vh;
+  background-color: lightblue;
+  padding: 15px 30px;
+  border-bottom: 2px solid #99ccee;
+  position: right;
+  top: 0;
+  z-index: 999;
+  align-content:right;
+}
+
+/* CONTAINER */
+.nav-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LOGO */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* LINKS (desktop) */
+.nav-links {
+  align-self: right;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-size:15px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.nav-links a:hover {
+  border-color: #95c6f3;
+  background: #9dc6f5;
+}
+
+/* HAMBURGER (hidden on desktop) */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* --- MOBILE LAYOUT --- */
+@media (max-width: 1050px) {
+  .navbar {
+    min-width: unset;
+    width: 95vw;
+    background-color: lightblue;
+    padding: 15px 30px;
+    border-bottom: 2px solid #99ccee;
+    position: right;
+    top: 0;
+    z-index: 999;
+    align-content:right;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    top: 60px;
+    width: 100%;
+    background: lightblue;
+    border-top: 2px solid #99ccee;
+    padding: 10px 0;
+  }
+
+  .nav-links a {
+    padding: 12px 20px;
+    border-radius: 0;
+    border-top: 1px solid #aad8ff;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+    margin-left: 20%;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    left: 0;
+    top: 40px;
+    max-width: 100vh;
+    background: lightblue;
+    border-top: 2px solid #99ccee;
+    padding: 10px 0;
+  }
+
+  .nav-links a {
+    padding: 12px 20px;
+    border-radius: 0;
+    border-top: 1px solid #aad8ff;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+    margin-left: 20%;
+  }
+}
+

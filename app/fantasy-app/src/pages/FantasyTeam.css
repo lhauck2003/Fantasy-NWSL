@@ -89,7 +89,7 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: 0.2s;
-  overflow:auto;
+  overflow:hidden;
 }
 
 .player-slot:hover {

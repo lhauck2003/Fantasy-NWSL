@@ -54,10 +54,9 @@ export default function Transfers({ userID }) {
   // Fetch team from backend
   async function get_team(userID) {
     try {
-      const response = await fetch(api_network + "/fetch_team", {
-        method: "POST",
+      const response = await fetch(`${api_network}/fetch_team/${userID}`, {
+        method: "GET",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userID }),
       });
       if (response.ok) {
         return await response.json();
@@ -85,6 +84,21 @@ export default function Transfers({ userID }) {
       alert("Failed to load players");
     }
     return [];
+  }
+
+    async function saveTeam() {
+    try {
+      const resp = await fetch(`${api_network}/save_team/${userID}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ team }),
+      });
+      if (!resp.ok) throw new Error("Save failed");
+      alert("Team saved");
+    } catch (err) {
+      console.error(err);
+      alert("Save failed");
+    }
   }
 
   if (!team) return (<p>Team loading...</p>)
@@ -213,23 +227,6 @@ function handlePlayerClick(player, groupKey) {
   setTeam(newTeam);
   setSelectedPlayer(null);
 }
-
-
-
-  async function saveTeam() {
-    try {
-      const resp = await fetch("http://127.0.0.1:8000/save_team", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userID, team }),
-      });
-      if (!resp.ok) throw new Error("Save failed");
-      alert("Team saved");
-    } catch (err) {
-      console.error(err);
-      alert("Save failed");
-    }
-  }
 
   const teamsList = Array.from(
     new Set(
