@@ -1,13 +1,14 @@
 import sqlite3
 from modules.players import Player, Midfielder, Forward, Defender, Goalkeeper
+import os
 
 # ----------------------------------------------------------
 # Database Connection
 # ----------------------------------------------------------
 
-conn = sqlite3.connect(
-    "/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/nwsl_fantasy.db"
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(BASE_DIR, "db", "data", "nwsl_fantasy.db")
+conn = sqlite3.connect(DB_PATH)
 conn.row_factory = sqlite3.Row
 
 # ----------------------------------------------------------

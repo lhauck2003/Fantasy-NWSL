@@ -1,7 +1,11 @@
 # SQL Database Creation Script
+import os
 import sqlite3
 
-conn = sqlite3.connect('app/db/data/nwsl_fantasy.db')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(BASE_DIR, "db", "data", "nwsl_fantasy.db")
+
+conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
 # Player Table (Player ID, Name, Team ID, Position, etc.)
@@ -162,7 +166,7 @@ CREATE TABLE IF NOT EXISTS fantasy_teams (
 # Fantasy Account Table (user_id, balance, total_points)
 # holds user account information for fantasy league
 fantasy_account_table_sql = """
-CREATE TABLEL IF NOT EXISTS fantasy_accounts (
+CREATE TABLE IF NOT EXISTS fantasy_accounts (
     user_id TEXT,
     team_id TEXT,
     balance FLOAT,

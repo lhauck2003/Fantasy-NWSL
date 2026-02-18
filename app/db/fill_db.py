@@ -1,15 +1,19 @@
 # fills data base with data from CSVs
+import os
 import sqlite3
 import pandas as pd
-PLAYER_MATCH_STATS_CSV = "/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/player_match_stats.csv"
-PLAYER_CSV = '/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/stats-11-17.csv'
-TEAM_CSV = '/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/teams.csv'
-MATCH_CSV = '/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/matches.csv'
 
-DB = "/Users/levihauck/Documents/Fantasy-NWSL/Fantasy-NWSL/app/db/data/nwsl_fantasy.db"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-conn = sqlite3.connect(DB)
-cursor = conn.cursor()  
+PLAYER_MATCH_STATS_CSV = os.path.join(BASE_DIR, "db", "data", "player_match_stats.csv")
+PLAYER_CSV = os.path.join(BASE_DIR, "db", "data", "stats-11-17.csv")
+TEAM_CSV = os.path.join(BASE_DIR, "db", "data", "teams.csv")
+# MATCH_CSV = os.path.join(BASE_DIR, "db", "data", "matches.csv")
+
+DB_PATH = os.path.join(BASE_DIR, "db", "data", "nwsl_fantasy.db")
+
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
 
 # Load data to Player Match Stats Table (Match ID, Player ID, stats..., match points)
 player_match_stats_df = pd.read_csv(PLAYER_MATCH_STATS_CSV)
